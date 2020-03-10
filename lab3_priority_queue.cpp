@@ -12,6 +12,12 @@ PriorityQueue::PriorityQueue(unsigned int n_capacity) {
 
 // PURPOSE: Explicit destructor of the class PriorityQueue
 PriorityQueue::~PriorityQueue() {
+	for (int i = 1; i <= size; i++) {
+		delete heap[i];
+		heap[i] = NULL;
+	}
+	delete [] heap;
+	heap = NULL;
 }
 
 // PURPOSE: Returns the number of elements in the priority queue
@@ -26,6 +32,9 @@ bool PriorityQueue::empty() const {
 
 // PURPOSE: Returns true if the priority queue is full; false, otherwise
 bool PriorityQueue::full() const {
+	if (size == capacity) {
+		return true;
+	}
 	return false;
 }
 
@@ -52,7 +61,23 @@ PriorityQueue::TaskItem PriorityQueue::max() const {
 // returns true if successful and false otherwise
 // priority queue does not change in capacity
 bool PriorityQueue::enqueue( TaskItem val ) {
-	return false;
+	if (full()) {
+		return false;
+	}
+	else {
+		++size;
+		**(heap + size) = val;
+	}
+
+	int cur = (int)(size);
+
+	while (cur > 1 && (**(heap + cur / 2)).priority < val.priority) {
+		TaskItem temp = **(heap + cur / 2);
+		(**(heap + cur / 2)) = **(heap + cur);
+		**(heap + cur) = temp;
+		cur = (cur / 2);
+	}
+	return true;
 }
 
 // PURPOSE: Removes the top element with the maximum priority
