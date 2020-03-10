@@ -2,11 +2,11 @@ Function Assignment:
 
 
 Ameena:
--get size
--print 
--dequeue 
--test3
-- Test 4
+-get size (done)
+-print  (done)
+-dequeue  
+-test3  (done)
+- Test 4   (done)
 
 Nancy: 
 -PriorityQuene Constructor
