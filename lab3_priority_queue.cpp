@@ -12,17 +12,11 @@ PriorityQueue::PriorityQueue(unsigned int n_capacity) {
 
 // PURPOSE: Explicit destructor of the class PriorityQueue
 PriorityQueue::~PriorityQueue() {
-	for (int i = 1; i <= size; i++) {
-		delete heap[i];
-		heap[i] = NULL;
-	}
-	delete [] heap;
-	heap = NULL;
 }
 
 // PURPOSE: Returns the number of elements in the priority queue
 unsigned int PriorityQueue::get_size() const {
-	return 0;
+	return size; 
 }
 
 // PURPOSE: Returns true if the priority queue is empty; false, otherwise
@@ -32,14 +26,15 @@ bool PriorityQueue::empty() const {
 
 // PURPOSE: Returns true if the priority queue is full; false, otherwise
 bool PriorityQueue::full() const {
-	if (size == capacity) {
-		return true;
-	}
 	return false;
 }
 
 // PURPOSE: Prints the contents of the priority queue; format not specified
 void PriorityQueue::print() const {
+	for(int i = 1; i < size; i++){
+        cout << "Item Priority: " << heap[i]->priority << endl;
+        cout << "Item Description: " << heap[i]->description << endl; 
+    }//we can use the for loop because the size of the heap is not being changed while we iterate
 }
 
 // PURPOSE: Returns the max element of the priority queue without removing it
@@ -61,23 +56,7 @@ PriorityQueue::TaskItem PriorityQueue::max() const {
 // returns true if successful and false otherwise
 // priority queue does not change in capacity
 bool PriorityQueue::enqueue( TaskItem val ) {
-	if (full()) {
-		return false;
-	}
-	else {
-		++size;
-		**(heap + size) = val;
-	}
-
-	int cur = (int)(size);
-
-	while (cur > 1 && (**(heap + cur / 2)).priority < val.priority) {
-		TaskItem temp = **(heap + cur / 2);
-		(**(heap + cur / 2)) = **(heap + cur);
-		**(heap + cur) = temp;
-		cur = (cur / 2);
-	}
-	return true;
+	return false;
 }
 
 // PURPOSE: Removes the top element with the maximum priority
@@ -85,5 +64,36 @@ bool PriorityQueue::enqueue( TaskItem val ) {
 // returns true if successful and false otherwise
 // priority queue does not change in capacity
 bool PriorityQueue::dequeue() {
-	return false;
+//setting a pointer to a dynamically alloacted object
+    
+    if(empty())
+        return false;
+    else if(size == 1){
+        TaskItem* temp = heap[1];
+        heap[1] = NULL;
+        delete temp;//yes, the TaskItems are dynamically allocated
+    }
+    else {
+        TaskItem* temp = heap[size];
+        heap[size] = heap[1];
+        heap[1] = temp; //this swaps the bottom level with the top level
+        delete heap[size]; //deletes what was the highest level node
+        
+        TaskItem* cur = heap[1];
+        
+        for (int i = 2; i <= size && (cur > heap[i*2]||cur > heap[i*2+1]); i++) {
+            if(heap[i*2] > heap[i*2+1]) {
+                TaskItem* temp2 = heap[i*2];
+                heap[i*2] = cur;
+                cur = temp2;
+            }
+            else {
+                TaskItem* temp2 = heap[i*2+1];
+                heap[i*2+1] = cur;
+                cur = temp2;
+            }
+        }
+    }//we can use the for loop because the size of the heap is not being changed while we iterate
+    size--;
+    return true;
 }
