@@ -1,4 +1,5 @@
 #include "lab3_priority_queue.hpp"
+#include <iostream>
 
 using namespace std;
 
