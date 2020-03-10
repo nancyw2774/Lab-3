@@ -64,7 +64,7 @@ bool PriorityQueue::enqueue( TaskItem val ) {
 // returns true if successful and false otherwise
 // priority queue does not change in capacity
 bool PriorityQueue::dequeue() {
-//setting a pointer to a dynamically alloacted object
+  //setting a pointer to a dynamically alloacted object
     
     if(empty())
         return false;
@@ -81,8 +81,8 @@ bool PriorityQueue::dequeue() {
         
         TaskItem* cur = heap[1];
         
-        for (int i = 2; i <= size && (cur > heap[i*2]||cur > heap[i*2+1]); i++) {
-            if(heap[i*2] > heap[i*2+1]) {
+        for (int i = 2; i <= size && (cur->priority > heap[i*2]->priority||cur->priority > heap[i*2+1]->priority); i++) {
+            if(heap[i*2]->priority > heap[i*2+1]->priority) {
                 TaskItem* temp2 = heap[i*2];
                 heap[i*2] = cur;
                 cur = temp2;
