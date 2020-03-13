@@ -1,6 +1,8 @@
 #include "lab3_priority_queue.hpp"
 #include <iostream>
 
+//TODO: fix print, dequeue, and probably more stuff but thats as far as i got
+
 using namespace std;
 
 // PURPOSE: Parametric constructor 
@@ -9,11 +11,13 @@ PriorityQueue::PriorityQueue(unsigned int n_capacity) {
 	size = 0;
 	capacity = n_capacity;
 	heap = new TaskItem * [n_capacity + 1];
+	for (int i = 0; i < capacity; i++) 
+		heap[i] = NULL;
 }
 
 // PURPOSE: Explicit destructor of the class PriorityQueue
 PriorityQueue::~PriorityQueue() {
-	for (int i = 1; i <= size; i++) {
+	for (int i = 1; i <= (int)size; i++) {
 		delete heap[i];
 		heap[i] = NULL;
 	}
@@ -40,11 +44,12 @@ bool PriorityQueue::full() const {
 }
 
 // PURPOSE: Prints the contents of the priority queue; format not specified
-void PriorityQueue::print() const {
-	for (int i = 1; i < size; i++) {
+//this doesnt print properly (maybe print out each row as a new line?
+void PriorityQueue::print() const {/*
+	for (int i = 1; i < (int)size; i++) {
 		cout << "Item Priority: " << heap[i]->priority << endl;
 		cout << "Item Description: " << heap[i]->description << endl;
-	}//we can use the for loop because the size of the heap is not being changed while we iterate
+	*///we can use the for loop because the size of the heap is not being changed while we iterate
 }
 
 // PURPOSE: Returns the max element of the priority queue without removing it
@@ -54,7 +59,7 @@ PriorityQueue::TaskItem PriorityQueue::max() const {
 	if (size == 0)
 		return TaskItem(-1, "N/A");
 
-	for (int i = 1; i <= size; i++) {
+	for (int i = 1; i <= (int)size; i++) {
 		if (heap[i]->priority > maxNum)
 			maxNum = heap[i]->priority;
 	}
@@ -66,20 +71,21 @@ PriorityQueue::TaskItem PriorityQueue::max() const {
 // returns true if successful and false otherwise
 // priority queue does not change in capacity
 bool PriorityQueue::enqueue(TaskItem val) {
+	TaskItem* newVal = new TaskItem(val);
 	if (full()) {
 		return false;
 	}
 	else {
 		++size;
-		**(heap + size) = val;
+		heap[size] = newVal;
 	}
 
 	int cur = (int)size;
-
-	while (cur > 1 && (**(heap + cur / 2)).priority < val.priority) {
-		TaskItem temp = **(heap + cur / 2);
-		(**(heap + cur / 2)) = **(heap + cur);
-		**(heap + cur) = temp;
+	
+	while (cur > 1 && (heap[cur / 2]->priority < newVal->priority)) {
+		TaskItem temp = *heap[cur / 2];
+		*heap[cur / 2] = *heap[cur];
+		*heap[cur] = temp;
 		cur = (cur / 2);
 	}
 	return true;
@@ -89,9 +95,9 @@ bool PriorityQueue::enqueue(TaskItem val) {
 // re-arranges the remaining elements back into a heap
 // returns true if successful and false otherwise
 // priority queue does not change in capacity
-bool PriorityQueue::dequeue() {
-	//setting a pointer to a dynamically alloacted object
-
+bool PriorityQueue::dequeue() {/*
+	//setting a pointer to a dynamically allocated object
+	
 	if (empty())
 		return false;
 	else if (size == 1) {
@@ -104,22 +110,30 @@ bool PriorityQueue::dequeue() {
 		heap[size] = heap[1];
 		heap[1] = temp; //this swaps the bottom level with the top level
 		delete heap[size]; //deletes what was the highest level node
+		heap[size] = NULL;
 
 		TaskItem* cur = heap[1];
+		int index = 2;
 
-		for (int i = 2; i <= size && (cur->priority > heap[i * 2]->priority || cur->priority > heap[i * 2 + 1]->priority); i++) {
-			if (heap[i * 2]->priority > heap[i * 2 + 1]->priority) {
-				TaskItem* temp2 = heap[i * 2];
-				heap[i * 2] = cur;
-				cur = temp2;
+		//TODO: account for if 2 > size || 2i > size || 2i+1 > size
+		while (heap[i * 2] != NULL && heap[i * 2 + 1] != NULL || (cur->priority < heap[i * 2]->priority || cur->priority < heap[i * 2 + 1]->priority)) {
+		//i feel like a while loop makes more sense? cuz we dont know how many times we're iterating
+		//for (int i = 2; i <= (int)size && (cur->priority < heap[i * 2]->priority || cur->priority < heap[i * 2 + 1]->priority); i++) {
+			if (heap[i * 2] != NULL){
+				else if (heap[i * 2 + 1] == NULL || heap[i * 2]->priority > heap[i * 2 + 1]->priority) {
+					TaskItem* temp2 = heap[i * 2];
+					heap[i * 2] = cur;
+					heap[i] = temp2;
+				}
+				else {
+					TaskItem* temp2 = heap[i * 2 + 1];
+					heap[i * 2 + 1] = cur;
+					heap[i] = temp2;
+				}
 			}
-			else {
-				TaskItem* temp2 = heap[i * 2 + 1];
-				heap[i * 2 + 1] = cur;
-				cur = temp2;
-			}
+			++i;
 		}
-	}//we can use the for loop because the size of the heap is not being changed while we iterate
-	size--;
+	}
+	--size;*/
 	return true;
 }
