@@ -95,7 +95,7 @@ bool PriorityQueue::enqueue(TaskItem val) {
 // re-arranges the remaining elements back into a heap
 // returns true if successful and false otherwise
 // priority queue does not change in capacity
-bool PriorityQueue::dequeue() {/*
+bool PriorityQueue::dequeue() {
 	//setting a pointer to a dynamically allocated object
 	
 	if (empty())
@@ -113,14 +113,12 @@ bool PriorityQueue::dequeue() {/*
 		heap[size] = NULL;
 
 		TaskItem* cur = heap[1];
-		int index = 2;
+		int i = 1;
 
 		//TODO: account for if 2 > size || 2i > size || 2i+1 > size
-		while (heap[i * 2] != NULL && heap[i * 2 + 1] != NULL || (cur->priority < heap[i * 2]->priority || cur->priority < heap[i * 2 + 1]->priority)) {
-		//i feel like a while loop makes more sense? cuz we dont know how many times we're iterating
-		//for (int i = 2; i <= (int)size && (cur->priority < heap[i * 2]->priority || cur->priority < heap[i * 2 + 1]->priority); i++) {
+		while ((heap[i * 2] != NULL && cur->priority < heap[i * 2]->priority) || (heap[i * 2 + 1] != NULL && cur->priority < heap[i * 2 + 1]->priority)) {
 			if (heap[i * 2] != NULL){
-				else if (heap[i * 2 + 1] == NULL || heap[i * 2]->priority > heap[i * 2 + 1]->priority) {
+				if (heap[i * 2 + 1] == NULL || heap[i * 2]->priority > heap[i * 2 + 1]->priority) {
 					TaskItem* temp2 = heap[i * 2];
 					heap[i * 2] = cur;
 					heap[i] = temp2;
@@ -134,6 +132,6 @@ bool PriorityQueue::dequeue() {/*
 			++i;
 		}
 	}
-	--size;*/
+	--size;
 	return true;
 }
