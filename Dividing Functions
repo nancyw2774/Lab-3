@@ -6,12 +6,12 @@ Ameena:
 - max
 -exsists
 -get node depth
--destructor
+- get root address
 
 Nancy: 
 - min
 -remove 
-- constructor 
+- constructor & destructor
 - get root node
 
 Renee: 
