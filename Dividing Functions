@@ -5,15 +5,20 @@ Pending Still:
 Ameena: 
 - max
 -exsists
+-get node depth
+-destructor
 
 Nancy: 
 - min
 -remove 
+- constructor 
+- get root node
 
 Renee: 
 - get-size() 
 -height 
 -print
+- insert
 
 
 Completed: 
