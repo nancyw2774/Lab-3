@@ -6,7 +6,6 @@ Ameena:
 - max
 -exsists
 -get node depth
-- get root address
 
 Nancy: 
 - min
@@ -28,6 +27,7 @@ Ameena:
 -dequeue (done)
 -test3  (done)
 - Test 4   (done)
+- get root address
 
 Nancy: 
 -PriorityQuene Constructor
