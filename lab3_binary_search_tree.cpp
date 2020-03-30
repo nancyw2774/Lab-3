@@ -27,13 +27,27 @@ BinarySearchTree::~BinarySearchTree() {
 
 // PURPOSE: Returns the number of nodes in the tree
 unsigned int BinarySearchTree::get_size() const {
-	return 0;
+	return size;
 }
 
 // PURPOSE: Returns the maximum value of a node in the tree
 // if the tree is empty, it returns (-1, "N/A")
 BinarySearchTree::TaskItem BinarySearchTree::max() const {
-	return BinarySearchTree::TaskItem(-1, "N/A");
+	  if(!root || size == 0)
+        return BinarySearchTree::TaskItem(-1, "N/A");
+    else if (size == 1)
+        return *root;
+//    else if(!root -> right && size == 2){
+//        return *root;
+//    }
+    else{
+        TaskItem* cur = root;
+        while(cur -> right){
+            cur = cur -> right;
+        }
+        return *cur;
+    }
+    //return BinarySearchTree::TaskItem(-1, "N/A");
 }
 
 // PURPOSE: Returns the minimum value of a node in the tree
@@ -61,7 +75,19 @@ void BinarySearchTree::print() const {
 // PURPOSE: Returns true if a node with the value val exists in the tree	
 // otherwise, returns false
 bool BinarySearchTree::exists( BinarySearchTree::TaskItem val ) const {
-	return false;
+	  if(!root || size == 0)
+        return false;
+
+    TaskItem* cur = root;
+    
+    while(cur){
+        if(cur -> priority == val.priority)
+            return true;
+        else if (cur -> priority > val.priority)
+            cur = (cur->right? cur -> right: NULL);
+        else if (cur -> priority < val.priority)
+            cur = (cur->left? cur -> left: NULL);
+    }
 }
 
 // PURPOSE: Optional helper function that returns a pointer to the root node
@@ -71,12 +97,35 @@ BinarySearchTree::TaskItem* BinarySearchTree::get_root_node() {
 
 // PURPOSE: Optional helper function that returns the root node pointer address
 BinarySearchTree::TaskItem** BinarySearchTree::get_root_node_address() {
-    return NULL;
+      if (root)
+        return &root;
+    else
+        return NULL;
 }
 
 // PURPOSE: Optional helper function that gets the maximum depth for a given node
 int BinarySearchTree::get_node_depth( BinarySearchTree::TaskItem* n ) const {
-	return 0;
+	 if(!root || size == 0 || !exists(*n))
+        return 0;
+    
+    TaskItem* cur = root;
+    int count = 0;
+    
+    while(cur){
+        if(cur -> priority == n -> priority)
+            return count;
+        else if (cur -> priority > n -> priority){
+            if (cur -> right) {
+                cur = cur -> right;
+                count++;
+            }
+        }
+        else if (cur -> priority < n -> priority)
+            if (cur -> left) {
+                cur = cur -> left;
+                count++;
+            }
+    }
 }
 
 // PURPOSE: Inserts the value val into the tree if it is unique
