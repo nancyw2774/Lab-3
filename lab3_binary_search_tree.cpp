@@ -64,30 +64,57 @@ BinarySearchTree::TaskItem BinarySearchTree::min() const {
 }
 
 // PURPOSE: Returns the tree height
-unsigned int BinarySearchTree::height() const {
-	return 0;
+unsigned int BinarySearchTree::height()  {
+	
+	if (!root) {
+		return 0;
+	}
+	
+	TaskItem **cur = &root;
+	
+	int max = 0, curMax = 0;
+
+	max = height(cur, max, curMax);
+	return max;
+
+}
+
+unsigned int BinarySearchTree::height(TaskItem** cur, int max, int curMax)  {
+	if (!((*cur)->left || (*cur)->right)) {
+		return 0;
+	}
+	else if ((*cur)->left) {
+		curMax = height(&((*cur)->left), max, curMax) + 1;
+		if (curMax > max) {
+			max = curMax;
+		}
+	} else if ((*cur)->right) {
+		curMax = height(&((*cur)->right), max, curMax) + 1;
+		if (curMax > max) {
+			max = curMax;
+		}
+	}
+
+	return max;
 }
 
 // PURPOSE: Prints the contents of the tree; format not specified
 void BinarySearchTree::print() const {
+	TaskItem* cur = root;
+	print(cur);
 }
 
-// PURPOSE: Returns true if a node with the value val exists in the tree	
-// otherwise, returns false
-bool BinarySearchTree::exists( BinarySearchTree::TaskItem val ) const {
-	  if(!root || size == 0)
-        return false;
 
-    TaskItem* cur = root;
-    
-    while(cur){
-        if(cur -> priority == val.priority)
-            return true;
-        else if (cur -> priority > val.priority)
-            cur = (cur->right? cur -> right: NULL);
-        else if (cur -> priority < val.priority)
-            cur = (cur->left? cur -> left: NULL);
-    }
+void BinarySearchTree::print(BinarySearchTree::TaskItem * val) const {
+	if (val == NULL) {
+		return;
+	}
+	else {
+		cout << val->priority << " " << val->description << "\n";
+		print(val->left);
+		print(val->right);
+	}
+	
 }
 
 // PURPOSE: Optional helper function that returns a pointer to the root node
@@ -139,7 +166,28 @@ int BinarySearchTree::get_node_depth( BinarySearchTree::TaskItem* n ) const {
 // PURPOSE: Inserts the value val into the tree if it is unique
 // returns true if successful; returns false if val already exists
 bool BinarySearchTree::insert( BinarySearchTree::TaskItem val ) {
-    return false;
+	TaskItem** cur = &root;
+	if (!root) {
+		*cur = new TaskItem(val);
+		++size;
+		return true;
+	}
+
+	while (*cur) {
+		if ((*cur)->priority == val.priority) {
+			return false;
+		}
+		else if ((*cur)->priority > val.priority) {
+			cur = &((*cur)->left);
+		}
+		else if ((*cur)->priority < val.priority) {
+			cur = &((*cur)->right);
+		}
+	}
+
+	(*cur) = new TaskItem(val);
+	++size;
+    return true;
 }
 
 // PURPOSE: Removes the node with the value val from the tree
