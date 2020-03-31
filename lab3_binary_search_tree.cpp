@@ -105,26 +105,34 @@ BinarySearchTree::TaskItem** BinarySearchTree::get_root_node_address() {
 
 // PURPOSE: Optional helper function that gets the maximum depth for a given node
 int BinarySearchTree::get_node_depth( BinarySearchTree::TaskItem* n ) const {
-	 if(!root || size == 0 || !exists(*n))
+	    if(!root || size == 0 || !exists(*n)){
+        cout << "base case triggered";
         return 0;
-    
+    }
     TaskItem* cur = root;
-    int count = 0;
-    
-    while(cur){
-        if(cur -> priority == n -> priority)
-            return count;
-        else if (cur -> priority > n -> priority){
-            if (cur -> right) {
-                cur = cur -> right;
-                count++;
+    if (size == 1)
+        return 1;
+    else {
+        int count = 2;
+        
+        for (int i = 0; i < size; i++){
+            if(cur -> priority == n -> priority){
+                cout << "base case triggered" << endl;
+                return count;
+               
             }
+            else if (cur -> priority > n -> priority){
+                if (cur -> right) {
+                    cur = cur -> right;
+                    count++;
+                }
+            }
+            else if (cur -> priority < n -> priority)
+                if (cur -> left) {
+                    cur = cur -> left;
+                    count++;
+                }
         }
-        else if (cur -> priority < n -> priority)
-            if (cur -> left) {
-                cur = cur -> left;
-                count++;
-            }
     }
 }
 
