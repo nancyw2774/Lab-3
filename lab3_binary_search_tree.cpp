@@ -9,7 +9,7 @@ BinarySearchTree::BinarySearchTree() {
 	size = 0;
 }
 
-void BinarySearchTree::destroy(TaskItem* node){ //ADD TO HEADER
+void BinarySearchTree::destroy(TaskItem* node){
 	if (node)
 	{
 		destroy(node->left);
