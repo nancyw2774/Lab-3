@@ -63,6 +63,24 @@ BinarySearchTree::TaskItem BinarySearchTree::min() const {
 	return *cur;
 }
 
+bool BinarySearchTree::exists( BinarySearchTree::TaskItem val) const {
+    if(!root || size == 0)
+        return false;
+
+    TaskItem* cur = root;
+    
+    while(cur){
+        if(cur -> priority == val.priority)
+            return true;
+        else if (cur -> priority > val.priority)
+            cur = (cur->right? cur -> right: NULL);
+        else if (cur -> priority < val.priority)
+            cur = (cur->left? cur -> left: NULL);
+    }
+    return false;
+}
+
+
 // PURPOSE: Returns the tree height
 unsigned int BinarySearchTree::height()  {
 	
