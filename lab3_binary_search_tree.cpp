@@ -192,8 +192,8 @@ bool BinarySearchTree::insert( BinarySearchTree::TaskItem val ) {
 
 // PURPOSE: Removes the node with the value val from the tree
 // returns true if successful; returns false otherwise
-bool BinarySearchTree::remove( BinarySearchTree::TaskItem val ) {
-    if (!root)
+bool BinarySearchTree::remove(BinarySearchTree::TaskItem val) {
+	if (!root)
 		return false;
 	if (root->priority == val.priority && size == 1) {//if one element
 		delete root;
@@ -201,21 +201,22 @@ bool BinarySearchTree::remove( BinarySearchTree::TaskItem val ) {
 		size--;
 		return true;
 	}
-
 	TaskItem* cur = root;
 	TaskItem* prev = root;
 	bool found = false;
 	//finding node to remove
 	while (!found) {
-		if (cur->priority > val.priority && cur->left != NULL) {
-			if (cur->left->priority == val.priority){//stops if next one is node
+		if (*(cur) == val)
+			found = true;
+		else if (cur->priority > val.priority && cur->left != NULL) {
+			if (*(cur->left) == val){//stops if next one is node
 				prev = cur;
 				found = true;
 			}
 			cur = cur->left;
 		}
 		else if (cur->priority < val.priority && cur->right != NULL) {
-			if (cur->right->priority == val.priority) {//ditto
+			if (*(cur->right) == val) {//ditto
 				prev = cur;
 				found = true;
 			}
@@ -246,11 +247,17 @@ bool BinarySearchTree::remove( BinarySearchTree::TaskItem val ) {
 				temp = temp->left;
 			}
 		}
+		TaskItem* temp_right = temp->right;
+		TaskItem* temp_left = temp->left;
+
+		temp->right = cur->right;
+		temp->left = cur->left;
 		*cur = *temp;
 		cur = temp;
 		*cur = val;
+		cur->right = temp_right;
+		cur->left = temp_left;
 	}
-
 	//deleting extra node
 	if (prev->left == cur) {
 		delete prev->left;
