@@ -38,7 +38,7 @@ public:
 	 BinarySearchTree();
 	 
 	 //destructor helper function
-	void BinarySearchTree::destroy(TaskItem* node);
+	void destroy(TaskItem* node);
 	
 	// PURPOSE: Explicit destructor of the class BinarySearchTree
 	~BinarySearchTree();
